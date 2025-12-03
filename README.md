@@ -49,7 +49,10 @@ Producer_consumer/
 ├── shared_buffer.py       # Thread-safe buffer implementation
 ├── producer.py            # Producer thread class
 ├── consumer.py            # Consumer thread class
-└── main.py               # Main demonstration program
+└── main.py                # Main demonstration program
+└── tests/                 # Tests
+    ├── test_shared_buffer.py
+    └── test_producer_consumer.py 
 ```
 
 ## Setup Instructions
@@ -58,33 +61,31 @@ Producer_consumer/
 ```bash
 cd Producer_consumer
 ```
+### Step 2: Install Pytest
 
-### Step 2: Verify Python Installation
+**For most systems:**
+```bash
+pip3 install pytest
+
+```
+### Step 3: Verify Python Installation
 ```bash
 python3 --version
 ```
 Should show Python 3.7 or higher.
 
-### Step 3: Run the Program
+### Step 4: Run the Program
 ```bash
 python3 main.py
 ```
 
-No additional dependencies needed - uses only Python standard library!
+### Step 5: Running Tests (Assignment 1)
 
-## Usage
+From the `Producer_consumer` directory:
 
-The program automatically runs two test scenarios:
-
-**Test 1: Single Producer-Consumer**
-- 1 producer thread generating 10 items
-- 1 consumer thread consuming 10 items
-- Buffer capacity: 3 items
-
-**Test 2: Multiple Producers-Consumers**
-- 2 producer threads (5 items each)
-- 2 consumer threads (5 items each)
-- Buffer capacity: 4 items
+```bash
+python3 -m pytest
+```
 
 ## Sample Output
 
@@ -241,21 +242,13 @@ Sales_Analytics/
 cd Sales_Analytics
 ```
 
-### Step 2: Install pandas
+### Step 2: Install pandas and Pytest
 
 **For most systems:**
 ```bash
 pip3 install pandas
-```
+pip3 install pytest
 
-**If the above doesn't work:**
-```bash
-python3 -m pip install pandas
-```
-
-**For macOS with Homebrew Python:**
-```bash
-/usr/local/bin/python3 -m pip install pandas
 ```
 
 ### Step 3: Verify pandas Installation
@@ -263,7 +256,6 @@ python3 -m pip install pandas
 python3 -c "import pandas; print('Pandas version:', pandas.__version__)"
 ```
 
-Expected output: `Pandas version: X.X.X`
 
 ### Step 4: Download the Dataset
 
@@ -292,26 +284,13 @@ You should see the CSV file listed.
 python3 main.py
 ```
 
-## Usage
+### Step 7:  Running Tests
 
-The program performs three types of demonstrations:
+From the `Sales_Analytics` directory:
 
-**1. Stream Operations** (8 operations)
-- Filter, map, reduce, sorted, limit, skip
-- Distinct values, match operations
-- Complex method chaining
-
-**2. Aggregation Operations** (8 queries)
-- Revenue by region, country, item type
-- Sales channel comparison
-- Monthly trends and time-series analysis
-- Profit margin analysis
-
-**3. Lambda Expressions** (4 use cases)
-- Filtering with predicates
-- Data transformation
-- Custom aggregations
-- Complex business logic
+```
+python3 -m pytest
+```
 
 ## Sample Output
 
