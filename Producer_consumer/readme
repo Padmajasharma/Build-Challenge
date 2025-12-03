@@ -1,0 +1,183 @@
+# Producer-Consumer Pattern Implementation
+
+A Python implementation of the classic producer-consumer synchronization pattern demonstrating thread-safe concurrent programming with blocking queues and condition variables.
+
+## Overview
+
+This project implements thread synchronization between multiple producer and consumer threads sharing a bounded buffer. Producers add items to the buffer while consumers remove them, with automatic blocking when the buffer is full or empty.
+
+## Features
+
+- Thread-safe shared buffer with configurable capacity
+- Automatic blocking using condition variables
+- Support for multiple concurrent producers and consumers
+- Comprehensive test suite with verification
+- Real-time operation logging
+
+## Project Structure
+
+```
+producer_consumer/
+├── __init__.py           # Package initialization
+├── shared_buffer.py      # Thread-safe bounded buffer
+├── producer.py           # Producer thread implementation
+├── consumer.py           # Consumer thread implementation
+└── main.py              # Test suite and demonstrations
+```
+
+## Installation
+
+**Prerequisites:** Python 3.7+
+
+```bash
+# Clone the repository
+cd producer_consumer
+
+# No additional dependencies needed - uses Python standard library
+```
+
+## Usage
+
+```bash
+python3 main.py
+```
+
+The program runs two test scenarios:
+1. Single producer-consumer pair (10 items, buffer capacity: 3)
+2. Multiple producers-consumers (2 of each, buffer capacity: 4)
+
+## Implementation Details
+
+### SharedBuffer
+
+Thread-safe bounded buffer using `threading.Condition` for synchronization:
+
+```python
+class SharedBuffer:
+    def put(item)     # Blocks if buffer is full
+    def take()        # Blocks if buffer is empty
+    def size()        # Returns current buffer size
+```
+
+### Producer Thread
+
+Reads from source container and adds items to shared buffer:
+
+```python
+class Producer(threading.Thread):
+    def run()  # Produces items with configurable delay
+```
+
+### Consumer Thread
+
+Removes items from shared buffer and stores in destination container:
+
+```python
+class Consumer(threading.Thread):
+    def run()  # Consumes items with configurable delay
+```
+
+## Example Output
+
+Producer-Consumer Pattern Test
+==================================================
+
+Test 1: Single Producer-Consumer
+--------------------------------------------------
+Producer-1 produced: 1 (buffer size: 1)
+Consumer-1 consumed: 1 (buffer size: 0)
+Producer-1 produced: 2 (buffer size: 1)
+Consumer-1 consumed: 2 (buffer size: 0)
+Producer-1 produced: 3 (buffer size: 1)
+Consumer-1 consumed: 3 (buffer size: 0)
+Producer-1 produced: 4 (buffer size: 1)
+Producer-1 produced: 5 (buffer size: 2)
+Consumer-1 consumed: 4 (buffer size: 1)
+Producer-1 produced: 6 (buffer size: 2)
+Consumer-1 consumed: 5 (buffer size: 1)
+Producer-1 produced: 7 (buffer size: 2)
+Producer-1 produced: 8 (buffer size: 3)
+Consumer-1 consumed: 6 (buffer size: 2)
+Producer-1 produced: 9 (buffer size: 3)
+Consumer-1 consumed: 7 (buffer size: 2)
+Producer-1 produced: 10 (buffer size: 3)
+Producer-1 finished producing
+Consumer-1 consumed: 8 (buffer size: 2)
+Consumer-1 consumed: 9 (buffer size: 1)
+Consumer-1 consumed: 10 (buffer size: 0)
+Consumer-1 finished consuming
+
+Verification:
+Source size: 10
+Destination size: 10
+All items transferred: True
+Destination: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+==================================================
+
+Test 2: Multiple Producers-Consumers
+--------------------------------------------------
+Producer-1 produced: A1 (buffer size: 1)
+Consumer-1 consumed: A1 (buffer size: 0)
+Consumer-2 waiting - buffer empty
+Producer-2 produced: B1 (buffer size: 1)
+Consumer-2 consumed: B1 (buffer size: 0)
+Producer-1 produced: A2 (buffer size: 1)
+Producer-2 produced: B2 (buffer size: 2)
+Consumer-2 consumed: A2 (buffer size: 1)
+Consumer-1 consumed: B2 (buffer size: 0)
+Producer-1 produced: A3 (buffer size: 1)
+Producer-2 produced: B3 (buffer size: 2)
+Consumer-2 consumed: A3 (buffer size: 1)
+Producer-1 produced: A4 (buffer size: 2)
+Producer-2 produced: B4 (buffer size: 3)
+Consumer-1 consumed: B3 (buffer size: 2)
+Producer-1 produced: A5 (buffer size: 3)
+Producer-2 produced: B5 (buffer size: 4)
+Consumer-2 consumed: A4 (buffer size: 3)
+Consumer-1 consumed: B4 (buffer size: 2)
+Producer-1 finished producing
+Producer-2 finished producing
+Consumer-2 consumed: A5 (buffer size: 1)
+Consumer-1 consumed: B5 (buffer size: 0)
+Consumer-2 finished consuming
+Consumer-1 finished consuming
+
+Verification:
+Total produced: 10
+Total consumed: 10
+Consumer-1 received: ['A1', 'B2', 'B3', 'B4', 'B5']
+Consumer-2 received: ['B1', 'A2', 'A3', 'A4', 'A5']
+All items transferred: True
+## Key Concepts Demonstrated
+
+- **Thread Synchronization:** Locks and condition variables prevent race conditions
+- **Blocking Queues:** Automatic capacity enforcement with FIFO ordering
+- **Wait/Notify Mechanism:** Efficient thread coordination without busy waiting
+- **Concurrent Programming:** Multiple threads accessing shared resources safely
+
+## Testing Objectives
+
+- Thread synchronization using locks and condition variables
+- Concurrent programming with multiple threads
+- Blocking queue behavior
+- Wait/notify mechanism for inter-thread communication
+
+## Requirements Met
+
+| Requirement | Implementation |
+|-------------|----------------|
+| Thread synchronization | `threading.Lock` and `Condition` |
+| Concurrent programming | Multiple producer/consumer threads |
+| Blocking queues | Bounded buffer with blocking operations |
+| Wait/Notify mechanism | Condition variables (`wait()`, `notify()`) |
+
+## Author
+
+**Name:** [Your Name]  
+**Date:** December 2024  
+**Course:** [Course Name]
+
+## License
+
+Educational project for coursework demonstration.
