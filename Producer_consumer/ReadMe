@@ -1,6 +1,6 @@
 # Producer-Consumer Pattern Implementation
 
-A Python implementation of the classic producer-consumer synchronization pattern demonstrating thread-safe concurrent programming with blocking queues and condition variables.
+A Python implementation of the classic producer–consumer synchronization pattern demonstrating thread-safe concurrent programming with blocking queues and condition variables.
 
 ## Overview
 
@@ -11,74 +11,110 @@ This project implements thread synchronization between multiple producer and con
 - Thread-safe shared buffer with configurable capacity
 - Automatic blocking using condition variables
 - Support for multiple concurrent producers and consumers
-- Comprehensive test suite with verification
-- Real-time operation logging
+- Real-time operation logging for visibility
+- Verification of produced vs consumed items
 
 ## Project Structure
 
-```
+```text
 producer_consumer/
 ├── __init__.py           # Package initialization
 ├── shared_buffer.py      # Thread-safe bounded buffer
 ├── producer.py           # Producer thread implementation
 ├── consumer.py           # Consumer thread implementation
-└── main.py              # Test suite and demonstrations
-```
+└── main.py               # Test suite and demonstrations
+Installation
+Prerequisites: Python 3.7+
 
-## Installation
-
-**Prerequisites:** Python 3.7+
-
-```bash
+bash
+Copy code
 # Clone the repository
+git clone https://github.com/<your-username>/<your-repo-name>.git
 cd producer_consumer
 
 # No additional dependencies needed - uses Python standard library
-```
-
-## Usage
-
-```bash
+Usage
+bash
+Copy code
 python3 main.py
-```
-
 The program runs two test scenarios:
-1. Single producer-consumer pair (10 items, buffer capacity: 3)
-2. Multiple producers-consumers (2 of each, buffer capacity: 4)
 
-## Implementation Details
+Single producer–consumer pair
 
-### SharedBuffer
+1 producer, 1 consumer
 
-Thread-safe bounded buffer using `threading.Condition` for synchronization:
+10 items
 
-```python
+Buffer capacity: 3
+
+Multiple producers–consumers
+
+2 producers, 2 consumers
+
+10 total items
+
+Buffer capacity: 4
+
+Implementation Details
+SharedBuffer
+Thread-safe bounded buffer using threading.Condition for synchronization:
+
+python
+Copy code
 class SharedBuffer:
-    def put(item)     # Blocks if buffer is full
-    def take()        # Blocks if buffer is empty
-    def size()        # Returns current buffer size
-```
+    def put(self, item):   # Blocks if buffer is full
+        ...
+    def take(self):        # Blocks if buffer is empty
+        ...
+    def size(self):        # Returns current buffer size
+        ...
+Core ideas:
 
-### Producer Thread
+Internally maintains a list as the buffer
 
-Reads from source container and adds items to shared buffer:
+Uses a lock + condition variable for wait() / notify_all()
 
-```python
+Enforces capacity and FIFO (queue-like) behavior
+
+Producer Thread
+Reads from a source container and adds items to the shared buffer:
+
+python
+Copy code
 class Producer(threading.Thread):
-    def run()  # Produces items with configurable delay
-```
+    def run(self):  # Produces items with configurable delay
+        ...
+Typical behavior:
 
-### Consumer Thread
+Iterates over a list of items
 
-Removes items from shared buffer and stores in destination container:
+Calls buffer.put(item) for each element
 
-```python
+Logs each production event
+
+Optionally sleeps between produces to simulate work
+
+Consumer Thread
+Removes items from the shared buffer and stores them in a destination container:
+
+python
+Copy code
 class Consumer(threading.Thread):
-    def run()  # Consumes items with configurable delay
-```
+    def run(self):  # Consumes items with configurable delay
+        ...
+Typical behavior:
 
-## Example Output
+Continuously calls buffer.take()
 
+Appends consumed items to a shared results list
+
+Stops when a termination condition is met (e.g., a fixed count)
+
+Logs each consumption event
+
+Example Output
+text
+Copy code
 Producer-Consumer Pattern Test
 ==================================================
 
@@ -149,35 +185,35 @@ Total consumed: 10
 Consumer-1 received: ['A1', 'B2', 'B3', 'B4', 'B5']
 Consumer-2 received: ['B1', 'A2', 'A3', 'A4', 'A5']
 All items transferred: True
-## Key Concepts Demonstrated
+Key Concepts Demonstrated
+Thread Synchronization: Locks and condition variables prevent race conditions
 
-- **Thread Synchronization:** Locks and condition variables prevent race conditions
-- **Blocking Queues:** Automatic capacity enforcement with FIFO ordering
-- **Wait/Notify Mechanism:** Efficient thread coordination without busy waiting
-- **Concurrent Programming:** Multiple threads accessing shared resources safely
+Blocking Queues: Automatic capacity enforcement with FIFO ordering
 
-## Testing Objectives
+Wait/Notify Mechanism: Efficient thread coordination without busy waiting
 
-- Thread synchronization using locks and condition variables
-- Concurrent programming with multiple threads
-- Blocking queue behavior
-- Wait/notify mechanism for inter-thread communication
+Concurrent Programming: Multiple threads accessing shared resources safely
 
-## Requirements Met
+Testing Objectives
+Thread synchronization using locks and condition variables
 
-| Requirement | Implementation |
-|-------------|----------------|
-| Thread synchronization | `threading.Lock` and `Condition` |
-| Concurrent programming | Multiple producer/consumer threads |
-| Blocking queues | Bounded buffer with blocking operations |
-| Wait/Notify mechanism | Condition variables (`wait()`, `notify()`) |
+Concurrent programming with multiple threads
 
-## Author
+Blocking queue behavior
 
-**Name:** [Your Name]  
-**Date:** December 2024  
-**Course:** [Course Name]
+Wait/notify mechanism for inter-thread communication
 
-## License
+Requirements Met
+Requirement	Implementation
+Thread synchronization	threading.Lock and threading.Condition
+Concurrent programming	Multiple producer and consumer threads
+Blocking queues	Bounded buffer with blocking put/take
+Wait/Notify mechanism	Condition variables (wait(), notify_all())
 
-Educational project for coursework demonstration.
+Author
+Name: Padmaja Sharma
+Date: December 2024
+Course: Operating Systems / Concurrent Programming (update as needed)
+
+License
+Educational project for coursework demonstration
