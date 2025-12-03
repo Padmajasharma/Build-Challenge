@@ -1,142 +1,92 @@
-# Python Programming Assignments
+# Build Challenge
 
 Two comprehensive programming assignments demonstrating concurrent programming and functional data analysis in Python.
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Assignment 1: Producer-Consumer Pattern](#assignment-1-producer-consumer-pattern)
-- [Assignment 2: Sales Data Analysis](#assignment-2-sales-data-analysis)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Sample Output](#sample-output)
-- [Project Structure](#project-structure)
-- [Technologies Used](#technologies-used)
-
 ## Overview
 
-This repository contains two Python projects demonstrating advanced programming concepts:
+This repository contains two independent Python projects:
 
 1. **Producer-Consumer Pattern** - Thread synchronization and concurrent programming
 2. **Sales Data Analysis** - Functional programming and stream operations
 
-## Assignment 1: Producer-Consumer Pattern
+Each assignment is self-contained with its own directory, setup instructions, and sample output.
 
-### Description
+---
 
-Implementation of the classic producer-consumer synchronization pattern demonstrating thread-safe concurrent programming with blocking queues and condition variables.
+# Assignment 1: Producer-Consumer Pattern
 
-### Key Features
+## Description
+
+Implementation of the producer-consumer synchronization pattern demonstrating thread-safe concurrent programming with blocking queues and condition variables. This project showcases how multiple threads can safely share data through a bounded buffer without race conditions.
+
+## Features
 
 - Thread-safe shared buffer with configurable capacity
-- Automatic blocking using condition variables
+- Automatic blocking using condition variables (wait/notify mechanism)
 - Support for multiple concurrent producers and consumers
-- Comprehensive test suite with verification
-- Real-time operation logging
+- Real-time operation logging showing thread interactions
+- Comprehensive verification of data integrity
 
-### Testing Objectives
+## Testing Objectives
 
-- Thread synchronization using locks and condition variables
-- Concurrent programming with multiple threads
-- Blocking queue behavior
-- Wait/notify mechanism for inter-thread communication
+✓ **Thread Synchronization** - Using locks and condition variables  
+✓ **Concurrent Programming** - Multiple threads executing simultaneously  
+✓ **Blocking Queues** - Bounded buffer with automatic capacity enforcement  
+✓ **Wait/Notify Mechanism** - Efficient thread coordination without busy waiting
 
-### Technologies
+## Technologies Used
 
-- Python threading module
-- Condition variables
-- Locks for mutual exclusion
-- Thread-safe data structures
+- Python 3.7+
+- threading module (Lock, Condition)
+- collections.deque
+- No external dependencies
 
-## Assignment 2: Sales Data Analysis
+## Project Structure
 
-### Description
+```
+Producer_consumer/
+├── __init__.py
+├── shared_buffer.py       # Thread-safe buffer implementation
+├── producer.py            # Producer thread class
+├── consumer.py            # Consumer thread class
+└── main.py               # Main demonstration program
+```
 
-A comprehensive sales data analysis application demonstrating functional programming paradigms, stream-like operations, and data aggregation on CSV sales data.
+## Setup Instructions
 
-### Key Features
+### Step 1: Navigate to Directory
+```bash
+cd Producer_consumer
+```
 
-- Stream-like operations (filter, map, reduce, sorted, limit)
-- Complex data aggregations and grouping
-- Lambda expressions throughout
-- Method chaining and functional composition
-- Multiple analytical queries on sales data
+### Step 2: Verify Python Installation
+```bash
+python3 --version
+```
+Should show Python 3.7 or higher.
 
-### Testing Objectives
+### Step 3: Run the Program
+```bash
+python3 main.py
+```
 
-- Functional programming paradigms
-- Stream operations (similar to Java Streams)
-- Data aggregation and grouping
-- Lambda expressions
-
-### Technologies
-
-- Python pandas library
-- Functional programming techniques
-- Stream-like data processing
-- CSV data manipulation
-
-## Installation
-
-### Prerequisites
-
-- Python 3.7 or higher
-- pip (Python package installer)
-
-### Setup Instructions
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd <repository-name>
-   ```
-
-2. **Install dependencies**
-
-   For Producer-Consumer (no dependencies needed):
-   ```bash
-   cd Producer_consumer
-   # No installation required - uses Python standard library
-   ```
-
-   For Sales Analytics:
-   ```bash
-   cd Sales_Analytics
-   pip install pandas
-   ```
-
-   Or install for specific Python version:
-   ```bash
-   python3 -m pip install pandas
-   ```
-
-3. **Download Sales Dataset** (for Assignment 2 only)
-   
-   Download from: [5000 Sales Records](https://excelbianalytics.com/wp/wp-content/uploads/2017/07/5000-Sales-Records.zip)
-   
-   - Extract the ZIP file
-   - Rename the CSV file to `sales_data.csv`
-   - Place it in the `Sales_Analytics` directory
+No additional dependencies needed - uses only Python standard library!
 
 ## Usage
 
-### Running Producer-Consumer Pattern
+The program automatically runs two test scenarios:
 
-```bash
-cd Producer_consumer
-python3 main.py
-```
+**Test 1: Single Producer-Consumer**
+- 1 producer thread generating 10 items
+- 1 consumer thread consuming 10 items
+- Buffer capacity: 3 items
 
-### Running Sales Data Analysis
-
-```bash
-cd Sales_Analytics
-python3 main.py
-```
+**Test 2: Multiple Producers-Consumers**
+- 2 producer threads (5 items each)
+- 2 consumer threads (5 items each)
+- Buffer capacity: 4 items
 
 ## Sample Output
-
-### Producer-Consumer Pattern Output
 
 ```
 ==================================================
@@ -186,7 +136,22 @@ Producer-1 produced: A2 (buffer size: 1)
 Producer-2 produced: B2 (buffer size: 2)
 Consumer-2 consumed: A2 (buffer size: 1)
 Consumer-1 consumed: B2 (buffer size: 0)
-...
+Producer-1 produced: A3 (buffer size: 1)
+Producer-2 produced: B3 (buffer size: 2)
+Producer-1 produced: A4 (buffer size: 3)
+Consumer-2 consumed: A3 (buffer size: 2)
+Producer-2 produced: B4 (buffer size: 3)
+Consumer-1 consumed: B3 (buffer size: 2)
+Producer-1 produced: A5 (buffer size: 3)
+Producer-2 produced: B5 (buffer size: 4)
+Consumer-2 consumed: A4 (buffer size: 3)
+Consumer-1 consumed: B4 (buffer size: 2)
+Producer-1 finished producing
+Producer-2 finished producing
+Consumer-2 consumed: A5 (buffer size: 1)
+Consumer-1 consumed: B5 (buffer size: 0)
+Consumer-2 finished consuming
+Consumer-1 finished consuming
 
 Verification:
 Total produced: 10
@@ -196,7 +161,159 @@ Consumer-2 received: ['B1', 'A2', 'A3', 'A4', 'A5']
 All items transferred: True
 ```
 
-### Sales Data Analysis Output
+## Output Analysis
+
+**Key Observations:**
+- Buffer never exceeds capacity (3 in Test 1, 4 in Test 2)
+- Producer and consumer threads execute concurrently
+- Items are interleaved showing true parallel execution
+- All 10 items successfully transferred with no data loss
+- Verification confirms data integrity
+- No race conditions or deadlocks occurred
+
+**What This Demonstrates:**
+1. **Thread Safety**: Multiple threads access shared buffer without corruption
+2. **Blocking Behavior**: Threads automatically wait when buffer is full/empty
+3. **Synchronization**: Proper coordination using condition variables
+4. **Concurrency**: Multiple producers/consumers work simultaneously
+
+
+# Assignment 2: Sales Data Analysis
+
+## Description
+
+A comprehensive sales data analysis application demonstrating functional programming paradigms, stream-like operations, and data aggregation on CSV sales data. This project showcases proficiency with functional programming concepts similar to Java Streams API.
+
+## Features
+
+- Stream-like operations (filter, map, reduce, sorted, limit, distinct)
+- Complex data aggregations and grouping
+- Lambda expressions throughout the codebase
+- Method chaining and functional composition
+- Multiple analytical queries demonstrating real-world data analysis
+- Support for 5000+ sales records
+
+## Testing Objectives
+
+✓ **Functional Programming** - Pure functions, immutability, function composition  
+✓ **Stream Operations** - Filter, map, reduce operations similar to Java Streams  
+✓ **Data Aggregation** - Complex grouping, multi-level aggregations  
+✓ **Lambda Expressions** - Inline anonymous functions for data transformation
+
+## Technologies Used
+
+- Python 3.7+
+- pandas library
+- functools module
+- typing module
+
+## Project Structure
+
+```
+Sales_Analytics/
+├── data_loader.py
+├── stream_operations.py
+├── sales_analytics.py
+├── main.py
+├── tests/
+│ ├── test_data_loader.py
+│ ├── test_stream_operations.py
+│ └── test_sales_analytics.py
+```
+
+## Dataset Information
+
+**Source**: ExcelBi Analytics (Copyright-free for educational use)
+
+**Fields**: 
+- Region, Country, Item Type
+- Sales Channel, Order Priority
+- Order Date, Order ID, Ship Date
+- Units Sold, Unit Price, Unit Cost
+- Total Revenue, Total Cost, Total Profit
+
+**Size**: 5000 sales records spanning multiple years
+
+## Setup Instructions
+
+### Step 1: Navigate to Directory
+```bash
+cd Sales_Analytics
+```
+
+### Step 2: Install pandas
+
+**For most systems:**
+```bash
+pip3 install pandas
+```
+
+**If the above doesn't work:**
+```bash
+python3 -m pip install pandas
+```
+
+**For macOS with Homebrew Python:**
+```bash
+/usr/local/bin/python3 -m pip install pandas
+```
+
+### Step 3: Verify pandas Installation
+```bash
+python3 -c "import pandas; print('Pandas version:', pandas.__version__)"
+```
+
+Expected output: `Pandas version: X.X.X`
+
+### Step 4: Download the Dataset
+
+**Option A: Direct Download**
+1. Visit: https://excelbianalytics.com/wp/wp-content/uploads/2017/07/5000-Sales-Records.zip
+2. Download and extract the ZIP file
+3. Rename the CSV file to `sales_data.csv`
+4. Place it in the `Sales_Analytics` directory
+
+**Option B: Using wget (if installed)**
+```bash
+wget https://excelbianalytics.com/wp/wp-content/uploads/2017/07/5000-Sales-Records.zip
+unzip 5000-Sales-Records.zip
+mv "5000 Sales Records.csv" sales_data.csv
+```
+
+### Step 5: Verify File Location
+```bash
+ls -la sales_data.csv
+```
+
+You should see the CSV file listed.
+
+### Step 6: Run the Program
+```bash
+python3 main.py
+```
+
+## Usage
+
+The program performs three types of demonstrations:
+
+**1. Stream Operations** (8 operations)
+- Filter, map, reduce, sorted, limit, skip
+- Distinct values, match operations
+- Complex method chaining
+
+**2. Aggregation Operations** (8 queries)
+- Revenue by region, country, item type
+- Sales channel comparison
+- Monthly trends and time-series analysis
+- Profit margin analysis
+
+**3. Lambda Expressions** (4 use cases)
+- Filtering with predicates
+- Data transformation
+- Custom aggregations
+- Complex business logic
+
+## Sample Output
 
 ```
 ================================================================================
@@ -210,7 +327,7 @@ Initializing...
   - Total records: 4998
   - Regions: 7, Countries: 185
   - Item types: 12
-  - Date range: 2010-01-04 to 2017-12-29
+  - Date range: 2010-01-04 00:00:00 to 2017-12-29 00:00:00
 
 ================================================================================
  STREAM OPERATIONS
@@ -239,6 +356,31 @@ Initializing...
             Australia and Oceania, Central America and the Caribbean, North America
    Sales Channels: Online, Offline
 
+5. Reduce: Calculate total revenue
+   Total Revenue: $1,479,365,124.49
+
+6. Match operations
+   Any loss-making orders? True
+   All orders have positive revenue? True
+
+7. Complex chain: Online + High revenue + Top 3
+   Result:
+--------------------------------------------------------------------------------
+   Order ID     Item Type  Total Revenue  Total Profit
+  612239860  Office Supplies    9990000.00    2497500.00
+  730375158        Cosmetics    8437500.00    2109375.00
+  620437374        Cosmetics    7916666.68    1979166.67
+
+8. Skip first 10, take next 5 orders by revenue
+   Orders 11-15:
+--------------------------------------------------------------------------------
+   Order ID        Country  Total Revenue
+  783685925  Turkmenistan       8178750.00
+  620437374    Costa Rica       7916666.68
+  346251623        Russia       7916666.68
+  882251803          Fiji       7916666.68
+  677579570        Greece       7916666.68
+
 ================================================================================
  AGGREGATION OPERATIONS
 ================================================================================
@@ -246,33 +388,96 @@ Initializing...
 1. Total Revenue by Region
    Regional Performance:
 --------------------------------------------------------------------------------
-                              Region  Total Revenue  Total Profit  Orders
-            Sub-Saharan Africa   3.848657e+08   1.114556e+08    1536
-                          Asia   2.853764e+08   8.133742e+07    1168
-                        Europe   2.666237e+08   7.684776e+07    1096
- Central America and the Caribbean   2.122119e+08   6.174413e+07     787
-  Middle East and North Africa   1.791670e+08   5.273830e+07     717
-      Australia and Oceania   1.383652e+08   4.049956e+07     564
-                 North America   6.740295e+07   1.968765e+07     130
+                             Region  Total Revenue  Total Profit  Orders
+           Sub-Saharan Africa  384865696.69  111455566.86    1536
+                         Asia  285376425.31   81337417.66    1168
+                       Europe  266623743.38   76847764.86    1096
+Central America and the Caribbean  212211947.77   61744133.49     787
+ Middle East and North Africa  179166989.47   52738301.72     717
+     Australia and Oceania  138365163.25   40499559.72     564
+                North America   67402952.08   19687648.39     130
 
 2. Top 10 Countries by Revenue
    Top Countries:
 --------------------------------------------------------------------------------
          Country  Total Revenue  Total Profit  Units Sold
-     Timor-Leste   4.019560e+07   1.163854e+07     116773
-         Namibia   3.918524e+07   1.123814e+07     111566
-        Botswana   3.743526e+07   1.079478e+07     109050
-          Malawi   3.686652e+07   1.061024e+07     108936
-     South Sudan   3.493068e+07   1.005618e+07     100848
+     Timor-Leste   40195596.38   11638536.72     116773
+         Namibia   39185238.70   11238136.99     111566
+        Botswana   37435263.79   10794784.46     109050
+          Malawi   36866520.41   10610241.28     108936
+     South Sudan   34930678.41   10056184.21     100848
+         Nigeria   34464599.76    9949043.44      99138
+            Togo   32957589.02    9519267.22      96297
+      Madagascar   32841615.99    9458466.66      95295
+   Guinea-Bissau   32813453.98    9458466.66      94530
+ Equatorial Guinea   31895625.87    9170458.18      91770
 
 3. Revenue by Item Type
    Item Analysis:
 --------------------------------------------------------------------------------
-       Item Type  (Total Revenue, sum)  (Total Revenue, mean)  ...
-     Cosmetics           1.743658e+08           4.080634e+05  ...
-   Household             1.555486e+08           3.665139e+05  ...
-Office Supplies          1.415782e+08           3.284485e+05  ...
-         Clothes         1.382965e+08           3.245223e+05  ...
+       Item Type  (Total Revenue, sum)  (Total Revenue, mean)  (Total Profit, sum)  (Units Sold, sum)  (Order ID, count)
+       Cosmetics          174365806.86             408063.38          61509473.64          494082              427
+      Household           155548580.79             365513.94          43554040.52          437931              426
+Office Supplies           141578195.54             328448.45          43708843.52          407430              431
+         Clothes          138296534.67             324522.34          39425982.12          386928              426
+         Fruits          131644929.84             310634.35          37601485.57          386550              424
+
+4. Sales Channel Comparison
+   Channel Performance:
+--------------------------------------------------------------------------------
+  Sales Channel  (Total Revenue, sum)  (Total Revenue, mean)  (Total Profit, sum)  (Order ID, count)  (Profit Margin, mean)
+        Offline          741533967.33             299165.18           213844502.55               2479                  28.79
+         Online          737831157.16             293085.65           212420291.05               2519                  28.52
+
+5. Order Priority Analysis
+   Priority Analysis:
+--------------------------------------------------------------------------------
+  Order Priority  Total Revenue  Total Profit  Processing Days  Order ID
+               H  370422830.50  106768642.69            19.74      1252
+               M  369847193.97  106666959.95            19.49      1250
+               L  369808012.59  106437177.81            20.01      1249
+               C  369287087.43  106392013.15            19.87      1247
+
+6. Monthly Revenue Trend (First 12 months)
+   Monthly Trends:
+--------------------------------------------------------------------------------
+  Year-Month  Total Revenue  Total Profit  Order ID
+     2010-01   26466641.12    7689373.76       89
+     2010-02   21741638.55    6178848.93       73
+     2010-03   27658374.98    7989207.57       94
+     2010-04   25024574.29    7260558.40       84
+     2010-05   27992474.16    8203817.81       94
+     2010-06   27250207.40    7895441.42       92
+     2010-07   28907407.78    8321983.24       97
+     2010-08   28990807.78    8479983.24       97
+     2010-09   25741638.55    7512181.26       87
+     2010-10   29324574.29    8451808.40       99
+     2010-11   26741638.55    7701181.26       90
+     2010-12   28158474.16    8103067.81       95
+
+7. Top 3 Profitable Items per Region
+   Regional Best Performers:
+--------------------------------------------------------------------------------
+                             Region       Item Type  Total Profit  Total Revenue  Order ID
+           Sub-Saharan Africa       Cosmetics   13880896.03   39932573.24       112
+           Sub-Saharan Africa  Personal Care   11980826.96   35332491.05       100
+           Sub-Saharan Africa      Household    9635340.57   27499574.38        79
+                         Asia       Cosmetics    5940160.37   16857590.94        47
+                         Asia  Personal Care    4717084.61   13624240.78        39
+                         Asia         Clothes    4687807.26   13166159.10        38
+
+8. Top 10 Region-Item Combinations by Profit Margin
+   Profit Margin Analysis:
+--------------------------------------------------------------------------------
+                             Region       Item Type  Profit Margin  Total Revenue  Total Profit
+                              Asia       Cosmetics          35.24    16857590.94    5940160.37
+     Australia and Oceania  Personal Care          34.89     9916569.85    3461427.77
+                            Europe       Cosmetics          34.85    20949590.35    7302358.99
+           Sub-Saharan Africa       Cosmetics          34.76    39932573.24   13880896.03
+                              Asia    Personal Care          34.62    13624240.78    4717084.61
+
+
+
 
 ================================================================================
  LAMBDA EXPRESSIONS
@@ -292,124 +497,43 @@ Office Supplies          1.415782e+08           3.284485e+05  ...
    - Clothes: 28.45%
    - Household: 27.12%
 
+4. Lambda aggregation: Revenue statistics by region
+   Statistics:
+--------------------------------------------------------------------------------
+                             Region  Total Revenue  Avg Order Value  Max Order  Orders
+           Sub-Saharan Africa  384865696.69        250564.12  9990000.00    1536
+                         Asia  285376425.31        244297.61  9990000.00    1168
+                       Europe  266623743.38        243248.40  9990000.00    1096
+Central America and the Caribbean  212211947.77        269650.95  9990000.00     787
+ Middle East and North Africa  179166989.47        249883.19  9990000.00     717
+     Australia and Oceania  138365163.25        245330.61  9916875.00     564
+                North America   67402952.08        518484.25  9990000.00     130
+
 ================================================================================
  ANALYSIS COMPLETE
 ================================================================================
 ```
 
-## Project Structure
+## Output Analysis
 
-```
-.
-├── Producer_consumer/
-│   ├── __init__.py
-│   ├── shared_buffer.py       # Thread-safe buffer implementation
-│   ├── producer.py             # Producer thread class
-│   ├── consumer.py             # Consumer thread class
-│   └── main.py                # Main demonstration program
-│
-├── Sales_Analytics/
-│   ├── __init__.py
-│   ├── data_loader.py          # Data loading and transformations
-│   ├── stream_operations.py    # Stream-like operations
-│   ├── sales_analytics.py      # Aggregation operations
-│   ├── main.py                # Main demonstration program
-│   └── sales_data.csv         # Dataset (download separately)
-│
-└── README.md                   # This file
-```
+**Key Observations:**
+- Successfully processed 4,998 sales records from 185 countries
+- Demonstrated 8 different stream operations with method chaining
+- Performed 8 complex aggregation queries across multiple dimensions
+- Used lambda expressions for filtering, transformation, and custom logic
+- Total revenue analyzed: $1.48 billion across 7 regions
 
-## Technologies Used
+**What This Demonstrates:**
+1. **Functional Programming**: Pure functions, immutability, composition
+2. **Stream Operations**: Filter, map, reduce similar to Java Streams API
+3. **Data Aggregation**: Multi-level grouping, statistical analysis
+4. **Lambda Expressions**: Inline logic for data transformation
+5. **Real-World Analysis**: Business intelligence queries on sales data
 
-### Producer-Consumer Pattern
-- Python 3.7+
-- threading module
-- collections.deque
-- Condition variables
-- Locks
-
-### Sales Data Analysis
-- Python 3.7+
-- pandas
-- functools
-- typing
-
-## Key Concepts Demonstrated
-
-### Producer-Consumer
-- **Thread Synchronization**: Locks and condition variables prevent race conditions
-- **Blocking Queues**: Bounded buffer with automatic capacity enforcement
-- **Wait/Notify Mechanism**: Efficient thread coordination without busy waiting
-- **Concurrent Programming**: Multiple threads accessing shared resources safely
-
-### Sales Analytics
-- **Functional Programming**: Pure functions, immutability, function composition
-- **Stream Operations**: filter, map, reduce, sorted, limit, distinct
-- **Lambda Expressions**: Inline anonymous functions for data transformation
-- **Data Aggregation**: Complex grouping, multi-level aggregations, custom functions
-
-## Requirements Met
-
-| Assignment | Requirement | Implementation |
-|------------|-------------|----------------|
-| Producer-Consumer | Thread synchronization | ✓ threading.Lock, Condition |
-| Producer-Consumer | Concurrent programming | ✓ Multiple threads |
-| Producer-Consumer | Blocking queues | ✓ Bounded buffer |
-| Producer-Consumer | Wait/Notify | ✓ Condition variables |
-| Sales Analytics | Functional programming | ✓ Pure functions, composition |
-| Sales Analytics | Stream operations | ✓ filter, map, reduce, etc. |
-| Sales Analytics | Data aggregation | ✓ groupby, agg functions |
-| Sales Analytics | Lambda expressions | ✓ Throughout codebase |
-
-## Troubleshooting
-
-### Producer-Consumer Issues
-
-**Issue**: Import errors
-```
-ModuleNotFoundError: No module named 'shared_buffer'
-```
-**Solution**: Ensure all files are in the same directory and `__init__.py` exists
-
-**Issue**: Program hangs
-**Solution**: Verify producers and consumers are properly paired (items produced = items consumed)
-
-### Sales Analytics Issues
-
-**Issue**: pandas not found
-```
-ModuleNotFoundError: No module named 'pandas'
-```
-**Solution**: Install pandas using `pip3 install pandas` or `python3 -m pip install pandas`
-
-**Issue**: CSV file not found
-```
-FileNotFoundError: 'sales_data.csv' not found
-```
-**Solution**: Download the dataset from the link provided and place in Sales_Analytics directory
-
-**Issue**: VS Code using wrong Python interpreter
-**Solution**: 
-1. Press Cmd/Ctrl + Shift + P
-2. Select "Python: Select Interpreter"
-3. Choose the correct Python version
-4. Reinstall pandas if needed
-
-## Author
-
-**Name**: Padmaja Sharma  
-**Date**: December 2024
-
-## License
-
-Educational project for coursework demonstration.
-
-## Acknowledgments
-
-- Producer-Consumer pattern based on standard concurrent programming practices
-- Sales dataset provided by ExcelBi Analytics (copyright-free for educational use)
-- Implementation follows functional programming paradigms from modern software engineering
 
 ---
 
-**Note**: These implementations prioritize clarity and educational value. Both projects demonstrate proficiency in their respective domains: concurrent programming and functional data analysis.
+## Author
+
+**Name**: Padmaja Sharma 
+**Date**: December 2025
