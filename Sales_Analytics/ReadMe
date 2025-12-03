@@ -1,1 +1,64 @@
---This project demonstrates functionalThis project demonstrates functional programming, custom stream operations, lambda expressions, and analytical processing on a sales dataset using Python. It includes modular components for data loading, transformation, stream-like operations, and business-level aggregations. programming, custom stream operations, lambda expressions, and analytical processing on a sales dataset using Python. It includes modular components for data loading, transformation, stream-like operations, and business-level aggregations.
+# Sales Data Analysis – Functional Programming
+
+This project demonstrates functional programming, custom stream operations, lambda expressions, and analytical processing on a sales dataset using Python. It includes modular components for data loading, transformation, stream-style operations, and business-level aggregations.
+
+## Project Structure
+Sales_Analytics/
+├── data_loader.py
+├── stream_operations.py
+├── sales_analytics.py
+├── main.py
+├── tests/
+│   ├── test_data_loader.py
+│   ├── test_stream_operations.py
+│   └── test_sales_analytics.py
+└── README.md
+
+## Features
+- Functional programming with pure transformation functions
+- Custom stream-like operators: filter, map, sorted_by, limit, skip, distinct, reduce_sum, reduce_custom
+- Lambda expressions used across filtering, mapping, derived fields, and aggregations
+- Aggregation analytics: revenue by region, item type, channel, priority, month, and year
+- High-value orders, low-margin categories, and top profitable items per region
+- Complete unit test suite (27 tests) using pytest
+
+## Dataset
+Download:
+https://excelbianalytics.com/wp/wp-content/uploads/2017/07/5000-Sales-Records.zip
+
+Extract and rename the CSV file to:
+sales_data.csv
+
+Place it in the same directory as main.py.
+
+## Setup
+python3 -m venv venv
+source venv/bin/activate
+pip install pandas pytest
+
+## Running the Analysis
+python3 main.py
+
+The script prints:
+- Dataset summary
+- Stream operations demonstration
+- Analytical aggregations
+- Lambda-based calculations
+- Monthly, regional, and item-level insights
+
+## Running Tests
+pytest
+
+Expected output:
+27 passed
+
+## Deliverables Completed
+- Public GitHub repository
+- Complete source code
+- Unit tests for all analysis methods
+- README with setup instructions
+- Full analysis results printed to console
+
+## Author
+Padmaja Sharma  
+December 2024
