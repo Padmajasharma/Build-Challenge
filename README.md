@@ -39,7 +39,6 @@ Implementation of the producer-consumer synchronization pattern demonstrating th
 - Python 3.7+
 - threading module (Lock, Condition)
 - collections.deque
-- No external dependencies
 
 ## Project Structure
 
